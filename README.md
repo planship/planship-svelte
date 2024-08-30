@@ -15,11 +15,11 @@ The Planship Svelte SDK implements two context providers:
 Install `@planship/svelte` with npm, yarn or pnpm:
 
 ```sh
-npm install @planship/svelte
+npm install @planship/svelte --save-dev
 # or
-yarn add @planship/svelte
+yarn add -D @planship/svelte
 # or
-pnpm add @planship/svelte
+pnpm add -D @planship/svelte
 ```
 
 ## Working with entitlements and other customer data - `PlanshipCustomerProvider` and `usePlanshipCustomer`
