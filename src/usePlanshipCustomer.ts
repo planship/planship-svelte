@@ -1,7 +1,7 @@
-import { CustomerSubscriptionWithPlan, Entitlements, PlanshipCustomerApi } from '@planship/fetch'
-import { EntitlementsBase } from './types.js'
-import { getPlanshipCustomerContext, IPlanshipCustomerContext } from './customerContext.js'
-import { get, Readable, derived } from 'svelte/store'
+import type { CustomerSubscriptionWithPlan, Entitlements, PlanshipCustomerApi } from '@planship/fetch'
+import type { EntitlementsBase } from './types.js'
+import { getPlanshipCustomerContext, type IPlanshipCustomerContext } from './customerContext.js'
+import { type Readable, derived } from 'svelte/store'
 
 
 interface ICustomerContext<T extends EntitlementsBase> {

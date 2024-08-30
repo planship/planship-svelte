@@ -1,6 +1,6 @@
-import { CustomerSubscriptionWithPlan, Entitlements, PlanshipCustomerApi } from '@planship/fetch'
+import type { CustomerSubscriptionWithPlan, Entitlements, PlanshipCustomerApi } from '@planship/fetch'
 import { getContext, setContext } from 'svelte'
-import { Readable } from 'svelte/store'
+import type { Readable } from 'svelte/store'
 
 const _contextKey = '$$_planshipCustomer'
 

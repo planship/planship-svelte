@@ -1,4 +1,4 @@
-import { PlanshipApi } from '@planship/fetch'
+import type { PlanshipApi } from '@planship/fetch'
 import { getContext, setContext } from 'svelte'
 
 const _contextKey = '$$_planship'

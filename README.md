@@ -1,6 +1,6 @@
 # planship-svelte
 
-Welcome to `@planship/svelte`, library that enables entitlements, metering, plan packaging, and customer/subscription management in your [Svelte](https://svelte.dev/) and [SvelteKit]https://kit.svelte.dev/) apps powered by [Planship](https://planship.io). This SDK is built on top of the [@planship/fetch](https://github.com/planship/planship-js/tree/master/packages/fetch) JavaScript library and it uses the Svelte [Context API](https://learn.svelte.dev/tutorial/context-api) and [stores](https://svelte.dev/docs/svelte-store) under the good.
+Welcome to `@planship/svelte`, a Svelte library that enables entitlements, metering, plan packaging, and customer/subscription management in your [Svelte](https://svelte.dev/) and [SvelteKit]https://kit.svelte.dev/) apps powered by [Planship](https://planship.io). This SDK is built on top of the [@planship/fetch](https://github.com/planship/planship-js/tree/master/packages/fetch) JavaScript library and uses the Svelte [Context API](https://learn.svelte.dev/tutorial/context-api) and [stores](https://svelte.dev/docs/svelte-store).
 
 ## The basics
 
@@ -24,27 +24,26 @@ pnpm add @planship/svelte
 
 ## Working with entitlements and other customer data - `PlanshipCustomerProvider` and `usePlanshipCustomer`
 
-In most rendering scenarios, your app will need to fetch and evaluate Planship entitlements for a specific customer. This can be accomplished with `PlanshipCustomerProvider` which initializes a Planship API instance for a specific customer, continously fetches their `entitlements`, and exposes them via a reactive Svelte store.
+In most rendering scenarios, your app will need to fetch and evaluate Planship entitlements for a specific customer. This can be accomplished with `PlanshipCustomerProvider`, which initializes a Planship API instance for a specific customer, continously fetches their `entitlements`, and exposes them via a reactive Svelte store.
 
 
 ### Initialization
 
-First, initialize `PlanshipCustomerProvider` near the root of your app. Please note, that `PlanshipCustomerProvider` can be used only within a context where the Planship customer ID (typically your current user) is known (E.g. a top level `layout.svelte` for a group of routes that require authentication).
+First, initialize `PlanshipCustomerProvider` near the root of your app. Please note that `PlanshipCustomerProvider` can be used only within a context where the Planship customer ID (typically your current user) is known (E.g. a top level `layout.svelte` for a group of routes that require authentication).
 
 
 ```svelte
 <script lang="ts">
-  import { PlanshipCustomerProvider } from `@planship/svelte`;
+  import { PlanshipCustomerProvider } from `@planship/svelte`
   import { getContext } from 'svelte';
 
-  // Planship access token getter function that retrives a Planship access token from the application backend
+  // Planship access token getter function that retrieves a Planship access token from the application backend
   const getAccessToken = () => {
-    return fetch("/api/planshipToken").then((r: Response) => r.text())
+    return fetch('/api/planshipToken').then((r: Response) => r.text())
   }
 
-  // retrieve currently authanticated user stored in the context
+  // retrieve currently authenticated user stored in the context
   const user: Readable = getContext('$currentUser')
-
 </script>
 
 <PlanshipCustomerProvider config={{ slug:'clicker-demo', customerId: $user.id, getAccessToken }}>
@@ -52,7 +51,7 @@ First, initialize `PlanshipCustomerProvider` near the root of your app. Please n
 </PlanshipCustomerProvider>
 ```
 
-`PlanshipCustomerProvider` has to be configured via `config` parameter that has the following, mandatory properties:
+`PlanshipCustomerProvider` has to be configured via `config` parameter that has the following mandatory properties:
 
 - **`slug`** - your [Planship product slug](https://docs.planship.io/concepts/products/)
 - **`customerId`** - your [Planship customer id](https://docs.planship.io/concepts/customers/)
@@ -60,12 +59,12 @@ First, initialize `PlanshipCustomerProvider` near the root of your app. Please n
 
 ### Authentication with Planship and `getAccessToken` function
 
-Since `PlanshipCustomerProvider` is initialized in the client-side code (or in both client- and server-side code when used with SvelteKit), security credentials cannot be used to authenticate with Planship. Instead, retrieve a Planship access token in your application server, and return it using an existing, secure connection to your backend.
+Since `PlanshipCustomerProvider` is initialized in the client-side code (or in both client- and server-side code when used with SvelteKit), security credentials cannot be used to authenticate with Planship. Instead, retrieve a Planship access token on your application server, and return it using an existing secure connection to your backend.
 
 Below is an example `+server.ts` module for a SvelteKit API endpoint that retrieves a token from the Planship API:
 
 ```ts
-import { env } from '$env/dynamic/private';
+import { env } from '$env/dynamic/private'
 import { Planship } from '@planship/svelte'
 
 export async function GET() {
@@ -79,19 +78,17 @@ export async function GET() {
 
 With `PlanshipCustomerProvider` intialized,  call `usePlanshipCustomer` in any page or component code to access customer entitlements.
 
-The example below shows how customer entitlements are retrieved, and a simple boolean feature called `advanced-analytics` is used to conditionally render an `<a>` element inside a Svelte component. Please note that `entitlements` dictionary is wrapped in a Svelte store.
+The example below shows how to retrieve customer entitlements and use them for conditional rendering within your pages and components. Please note that the `entitlements` dictionary is wrapped in a Svelte store.
 
 ```svelte
 <script lang='ts'>
-  import { usePlanshipCustomer } from '@planship/svelte';
+  import { usePlanshipCustomer } from '@planship/svelte'
 
   const { entitlements } = usePlanshipCustomer()
 </script>
 
 {#if $entitlements['advanced-analytics']}
-  <a to="/analytics">
-    Analytics
-  </a>
+  <a to="/analytics">Analytics</a>
 {/if}
 ```
 
@@ -103,7 +100,7 @@ Below is an example Svelte script that retrieves a list of subscriptions for the
 
 ```svelte
 <script lang='ts'>
-  import { usePlanshipCustomer } from '@planship/svelte';
+  import { usePlanshipCustomer } from '@planship/svelte'
 
   const { planshipCustomerApiClient } = usePlanshipCustomer()
   const subscriptions = await planshipCustomerApiClient.listSubscriptions()
@@ -117,14 +114,13 @@ When working with the entitlements dictionary returned by `usePlanshipCustomer`,
 To accomplish this, define an entitlements class for your product, and pass it to `usePlanshipCustomer`.
 
 ```svelte
-<script setup>
+<script lang='ts'>
   import { usePlanshipCustomer, EntitlementsBase } from '@planship/svelte'
 
   class MyEntitlements extends EntitlementsBase {
     get apiCallsPerMonth(): number {
       return this.entitlementsDict?.['api-calls-per-month'].valueOf()
     }
-
     get advancedAnalytics(): boolean {
       return this.entitlementsDict?.['advanced-analytics']
     }
@@ -135,9 +131,7 @@ To accomplish this, define an entitlements class for your product, and pass it t
 </script>
 
 {#if $entitlements.advancedAnalytics}
-  <a to="/analytics">
-    Analytics
-  </a>
+  <a to="/analytics">Analytics</a>
 {/if}
 ```
 
@@ -147,7 +141,8 @@ If the current customer context is unknown (E.g. pages of your app that don't re
 
 ```svelte
 <script lang="ts">
-  import { PlanshipProvider } from `@planship/svelte`;
+  import { PlanshipProvider } from `@planship/svelte`
+
   // Planship access token getter function that retrives a Planship access token from the application backend
   const getAccessToken = () => {
     return fetch("/api/planshipToken").then((r: Response) => r.text())
