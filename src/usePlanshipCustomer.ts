@@ -1,4 +1,4 @@
-import type { CustomerSubscriptionWithPlan, Entitlements, PlanshipCustomerApi } from '@planship/fetch'
+import type { Entitlements, PlanshipCustomerApi } from '@planship/fetch'
 import type { EntitlementsBase } from './types.js'
 import { getPlanshipCustomerContext, type IPlanshipCustomerContext } from './customerContext.js'
 import { type Readable, derived } from 'svelte/store'
@@ -7,7 +7,6 @@ import { type Readable, derived } from 'svelte/store'
 interface ICustomerContext<T extends EntitlementsBase> {
     planshipCustomerApiClient?: PlanshipCustomerApi
     entitlements: Readable<T>
-    subscriptions: Readable<CustomerSubscriptionWithPlan[]>
   }
 
 export function usePlanshipCustomer(): IPlanshipCustomerContext
@@ -19,7 +18,6 @@ export function usePlanshipCustomer(entitlementsType?: { new (entitlementsDict: 
   if (entitlementsType)
     return {
       planshipCustomerApiClient: currentContext.planshipCustomerApiClient,
-      subscriptions: currentContext.subscriptions,
       entitlements: derived(currentContext.entitlements, (e) => new entitlementsType(e))
     }
   else return currentContext

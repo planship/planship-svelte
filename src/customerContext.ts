@@ -1,4 +1,4 @@
-import type { CustomerSubscriptionWithPlan, Entitlements, PlanshipCustomerApi } from '@planship/fetch'
+import type { Entitlements, PlanshipCustomerApi } from '@planship/fetch'
 import { getContext, setContext } from 'svelte'
 import type { Readable } from 'svelte/store'
 
@@ -7,7 +7,6 @@ const _contextKey = '$$_planshipCustomer'
 export interface IPlanshipCustomerContext {
     planshipCustomerApiClient?: PlanshipCustomerApi
     entitlements: Readable<Entitlements>
-    subscriptions: Readable<CustomerSubscriptionWithPlan[]>
   }
 
 /** Retrieves a Client from Svelte's context */

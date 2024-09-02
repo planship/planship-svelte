@@ -1,5 +1,5 @@
-import { getPlanshipContext, type IPlanshipContext } from './context.js'
+import { getPlanshipContext, IPlanshipContext } from './context.js'
 
-export function usePlanship(context?: IPlanshipContext): IPlanshipContext {
-  return context || getPlanshipContext() ?
+export function usePlanship(): IPlanshipContext {
+  return getPlanshipContext()
 }
