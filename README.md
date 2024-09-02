@@ -167,6 +167,35 @@ Below is an example Svelte script that retrieves a list of Planship plans.
 </script>
 ```
 
+## Usage with SvelteKit
+
+This library can be used in SvelteKit applications as is. However, since `usePlanship` and `usePlanshipCustomer` rely on the Context API, they are available only in your layout/page/component initialization code.
+If you would like to fetch data from Planship inside your [page or layout load function](https://kit.svelte.dev/docs/load) instead, simply import and instantiate a [Planship](https://github.com/planship/planship-js/blob/master/packages/fetch/docs/classes/Planship.md) or [Planship Customer](https://github.com/planship/planship-js/blob/master/packages/fetch/docs/classes/PlanshipCustomer.md) API client directly.
+
+The example below shows a `+layout.ts' module with a load function that fetches a list of plans from Planship and passes it to the layout via layout data (along with the API client instance).
+
+```ts
+import type { LayoutLoad } from './$types'
+import { Planship } from '@planship/svelte'
+
+export const load: LayoutLoad = async ({ fetch }) => {
+
+  const planshipTokenGetter = () => {
+    return fetch("/api/planshipToken").then((r: Response) => r.text())
+  }
+
+  const planshipApi: Planship = new Planship('clicker-demo', planshipTokenGetter)
+
+  // Get the org list
+  const plans = await planshipApi.listPlans()
+
+  return {
+    planshipApi,
+    plans
+  }
+}
+```
+
 ## Links
 
 - [@planship/fetch library at the NPM Registry](https://www.npmjs.com/package/@planship/fetch)
