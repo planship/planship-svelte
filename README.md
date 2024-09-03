@@ -35,7 +35,7 @@ First, initialize `PlanshipCustomerProvider` near the root of your app. Please n
 ```svelte
 <script lang="ts">
   import { PlanshipCustomerProvider } from `@planship/svelte`
-  import { getContext } from 'svelte';
+  import { getContext } from 'svelte'
 
   // Planship access token getter function that retrieves a Planship access token from the application backend
   const getAccessToken = () => {
@@ -70,7 +70,7 @@ import { Planship } from '@planship/svelte'
 export async function GET() {
   const planship = new Planship('planship', {clientId: env.PLANSHIP_CLIENT_ID, clientSecret: env.PLANSHIP_CLIENT_SECRET })
   const token = await planship.getAccessToken()
-  return new Response(token.accessToken);
+  return new Response(token.accessToken)
 }
 ```
 
@@ -96,7 +96,7 @@ The example below shows how to retrieve customer entitlements and use them for c
 
 Your app may need to fetch additional customer data from Planship (E.g. customer subscription or usage data). To accomplish any Planship API operation use an instance of the [Planship Customer API client](https://github.com/planship/planship-js/blob/master/packages/fetch/docs/interfaces/PlanshipCustomerApi.md) returned by the `usePlanshipCustomer` function.
 
-Below is an example Svelte script that retrieves a list of subscriptions for the current customer.
+The example below shows Svelte component (or page) initialization code that retrieves a list of subscriptions for the current customer.
 
 ```svelte
 <script lang='ts'>
@@ -160,7 +160,7 @@ Below is an example Svelte script that retrieves a list of Planship plans.
 
 ```svelte
 <script lang='ts'>
-  import { usePlanship } from '@planship/svelte';
+  import { usePlanship } from '@planship/svelte'
 
   const { planshipApiClient } = usePlanship()
   const plans = await planshipApiClient.listPlans()

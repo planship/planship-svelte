@@ -6,8 +6,6 @@
   export let config: ProviderConfig
 
   const { baseUrl, webSocketUrl, slug, getAccessToken } = config
-
-
   const planshipApiClient = new Planship(slug,  getAccessToken, {
     baseUrl,
     webSocketUrl
@@ -16,7 +14,6 @@
   setPlanshipContext(
     { planshipApiClient }
   )
-
 </script>
 
 <slot />

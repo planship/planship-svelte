@@ -3,11 +3,10 @@ import type { EntitlementsBase } from './types.js'
 import { getPlanshipCustomerContext, type IPlanshipCustomerContext } from './customerContext.js'
 import { type Readable, derived } from 'svelte/store'
 
-
 interface ICustomerContext<T extends EntitlementsBase> {
-    planshipCustomerApiClient?: PlanshipCustomerApi
-    entitlements: Readable<T>
-  }
+  planshipCustomerApiClient?: PlanshipCustomerApi
+  entitlements: Readable<T>
+}
 
 export function usePlanshipCustomer(): IPlanshipCustomerContext
 export function usePlanshipCustomer<TEntititlements extends EntitlementsBase>(entitlementsType: {

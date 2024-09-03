@@ -5,9 +5,9 @@ import type { Readable } from 'svelte/store'
 const _contextKey = '$$_planshipCustomer'
 
 export interface IPlanshipCustomerContext {
-    planshipCustomerApiClient?: PlanshipCustomerApi
-    entitlements: Readable<Entitlements>
-  }
+  planshipCustomerApiClient?: PlanshipCustomerApi
+  entitlements: Readable<Entitlements>
+}
 
 /** Retrieves a Client from Svelte's context */
 export const getPlanshipCustomerContext = (): IPlanshipCustomerContext => {
